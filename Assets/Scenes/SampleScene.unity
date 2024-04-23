@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &109972898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 109972900}
+  - component: {fileID: 109972899}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &109972899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109972898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90538e2532b8854ab63f932674b4ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dayText: {fileID: 426487751}
+  cityText: {fileID: 225425628}
+--- !u!4 &109972900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109972898}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &203797855
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,13 +371,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.99
-  m_Text: 'Cash: $200
+  m_Text: 'Cash: $50
 
-    Population: 20/25
+    Population: 0/0
 
-    Food: 70
+    Food: 0
 
-    Jobs: 5/30'
+    Jobs: 0/0'
 --- !u!222 &225425629
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -354,7 +399,7 @@ GameObject:
   - component: {fileID: 370611412}
   - component: {fileID: 370611411}
   m_Layer: 5
-  m_Name: Controls
+  m_Name: BuldingsButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -517,7 +562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Day 15
+  m_Text: Day 1
 --- !u!222 &426487752
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -540,7 +585,7 @@ GameObject:
   - component: {fileID: 485995021}
   - component: {fileID: 485995020}
   m_Layer: 5
-  m_Name: Info
+  m_Name: CityParameters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -654,7 +699,6 @@ GameObject:
   m_Component:
   - component: {fileID: 486760384}
   - component: {fileID: 486760383}
-  - component: {fileID: 486760385}
   m_Layer: 0
   m_Name: City
   m_TagString: Untagged
@@ -689,20 +733,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &486760385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 486760382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c90538e2532b8854ab63f932674b4ec2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dayText: {fileID: 426487751}
-  cityText: {fileID: 225425628}
 --- !u!1 &532149646
 GameObject:
   m_ObjectHideFlags: 0
@@ -1383,13 +1413,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01cd88843fe2c04794a3eb11467f7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  city: {fileID: 486760383}
-  uIController: {fileID: 486760385}
   buildings:
-  - {fileID: 8773981409151121259, guid: 970ac72cac251b2449d84bd058207ccf, type: 3}
-  - {fileID: 1398051769831747024, guid: d6c7a1096bcfaf847acb2893b3c4703e, type: 3}
-  - {fileID: 6448489301984770865, guid: c29f0c037392dde4ebeb170acbab8c3e, type: 3}
-  - {fileID: 4213961174222977863, guid: 1db11d394f26b8d46856ec82a9bdfffe, type: 3}
+  - {fileID: -8946291759146066895, guid: 970ac72cac251b2449d84bd058207ccf, type: 3}
+  - {fileID: 4065138594790604598, guid: d6c7a1096bcfaf847acb2893b3c4703e, type: 3}
+  - {fileID: 5135128831927691919, guid: c29f0c037392dde4ebeb170acbab8c3e, type: 3}
+  - {fileID: 4309064948856269640, guid: 1db11d394f26b8d46856ec82a9bdfffe, type: 3}
   grid: {fileID: 1282816362}
 --- !u!114 &1282816362
 MonoBehaviour:

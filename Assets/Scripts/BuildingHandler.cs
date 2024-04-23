@@ -8,14 +8,15 @@ public enum Action
 }
 public class BuildingHandler : MonoBehaviour
 {
-    [SerializeField] private City city;
-    [SerializeField] private UIController uIController;
     [SerializeField] private Building[] buildings;
     [SerializeField] private Grid grid;
     private Building selectedBuilding;
     private void Start()
     {
         Vector3 auxPos = grid.CalculateGridPosition(new Vector3(10, 0, 10));
+        grid.AddBuilding(buildings[1], new Vector3(5, 0.5f, 5));
+        grid.AddBuilding(buildings[2], new Vector3(3, 0.5f, 5));
+        grid.AddBuilding(buildings[3], new Vector3(5, 0.5f, 3));
 
     }
     void Update()
@@ -45,19 +46,19 @@ public class BuildingHandler : MonoBehaviour
             {
                 if (action == Action.Build && grid.CheckForBuildingAtPosition(gridPosition) == null)
                 {
-                    if (city.Cash >= selectedBuilding.cost)
+                    if (City.Instance.Cash >= selectedBuilding.cost)
                     {
-                        city.DepositCash(-selectedBuilding.cost);
-                        uIController.UpdateCityData();
-                        city.buildingCounts[selectedBuilding.id]++;
+                        City.Instance.DepositCash(-selectedBuilding.cost);
+                        UIController.Instance.UpdateCityData();
+                        City.Instance.buildingCounts[selectedBuilding.id]++;
                         grid.AddBuilding(selectedBuilding, gridPosition);
                     }
                 }
                 else if(action == Action.Remove && grid.CheckForBuildingAtPosition(gridPosition) != null)
                 {
                     grid.RemoveBuilding(gridPosition);
-                    city.DepositCash(grid.CheckForBuildingAtPosition(gridPosition).cost * 3 / 4);
-                    uIController.UpdateCityData();
+                    City.Instance.DepositCash(grid.CheckForBuildingAtPosition(gridPosition).cost * 3 / 4);
+                    UIController.Instance.UpdateCityData();
                 }
             }
 

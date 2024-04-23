@@ -4,33 +4,77 @@ using UnityEngine;
 
 public class City : MonoBehaviour
 {
-    private UIController uIController;
-    public int Cash { get; set; }
+    private int jobsCeiling;
+    private int cash;
+    private float currentPopulation;
+    public static City Instance { get; private set; }
     public int Day { get; set; }
-    public float CurrentPopulation { get; set; }
     public float PopulationCeiling { get; set; }
     public int CurrentJobs { get; set; }
-    public int JobsCeiling { get; set; }
     public float Food { get; set; }
-    public int[] buildingCounts = new int[4];
+    public int[] buildingCounts = new int[4]; //0 is for roads, 1 is for houses, 2 is for farms, 3 is for factorys
+
+    public int JobsCeiling 
+    { 
+        get => jobsCeiling;
+        set
+        {
+            jobsCeiling = value;
+            CurrentJobs = Mathf.Min((int)CurrentPopulation, jobsCeiling);
+        }
+    }
+
+    public int Cash 
+    { 
+        get => cash; 
+        set
+        {
+            cash = value;
+        } 
+    }
+
+    public float CurrentPopulation 
+    { 
+        get => currentPopulation;
+        set
+        {
+            currentPopulation = value;
+            CurrentJobs = Mathf.Min((int)CurrentPopulation, jobsCeiling);
+        }
+    }
+
+    private void Awake() 
+    {
+        SetUpGame();
+    }
+
     void Start()
     {
-        uIController = GetComponent<UIController>();
         Cash = 50;
-        uIController.UpdateCityData();
+        Day = 1;
+        buildingCounts[1] = 1;
+        buildingCounts[2] = 1;
+        buildingCounts[3] = 1;
+        UIController.Instance.UpdateCityData();
+    }
 
+    private void SetUpGame()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this) Destroy(gameObject);
     }
 
     public void EndTurn()
     {
         Day++;
-        CalculatePopulation();
         CalculateJobs();
-        CalculateFood();
         CalculateCash();
         Debug.Log("Day ended.");
-        uIController.UpdateCityData();
-        uIController.UpdateDayCount();
+        UIController.Instance.UpdateCityData();
+        UIController.Instance.UpdateDayCount();
     }
     private void CalculateJobs()
     {
@@ -44,23 +88,5 @@ public class City : MonoBehaviour
     public void DepositCash(int cash)
     {
         Cash += cash;
-    }
-    private void CalculateFood()
-    {
-        Food += buildingCounts[2] * 4;
-    }
-    private void CalculatePopulation()
-    {
-        PopulationCeiling = buildingCounts[1] * 3;
-        if(Food >= CurrentPopulation && CurrentPopulation < PopulationCeiling)
-        {
-            Food -= CurrentPopulation * 0.25f;
-            CurrentPopulation = Mathf.Min(CurrentPopulation + Food * .25f, PopulationCeiling);
-        }
-        else if(Food < CurrentPopulation)
-        {
-            CurrentPopulation -= (CurrentPopulation - Food) * .5f;
-        }
-
     }
 }
