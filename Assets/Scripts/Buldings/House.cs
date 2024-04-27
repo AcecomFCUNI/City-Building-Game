@@ -16,7 +16,6 @@ public class House : Building, IProfitable
 
     public IEnumerator CalculateCityParameters()
     {
-        
         while(true)
         {
             yield return new WaitForSeconds(timeToIncreasePopulation);

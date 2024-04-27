@@ -11,21 +11,22 @@ public class BuildingHandler : MonoBehaviour
     [SerializeField] private Building[] buildings;
     [SerializeField] private Grid grid;
     private Building selectedBuilding;
+
+    public Building SelectedBuilding {get => selectedBuilding; private set => selectedBuilding = value;}
     private void Start()
     {
         Vector3 auxPos = grid.CalculateGridPosition(new Vector3(10, 0, 10));
         grid.AddBuilding(buildings[1], new Vector3(5, 0.5f, 5));
         grid.AddBuilding(buildings[2], new Vector3(3, 0.5f, 5));
         grid.AddBuilding(buildings[3], new Vector3(5, 0.5f, 3));
-
     }
     void Update()
     {
-        if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift) && selectedBuilding != null)
+        if (Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftShift) && SelectedBuilding != null)
         {
             InteractWithBoard(Action.Build);
         }
-        else if(Input.GetMouseButtonDown(0) && selectedBuilding != null)
+        else if(Input.GetMouseButtonDown(0) && SelectedBuilding != null)
         {
             InteractWithBoard(Action.Build);
         }
@@ -46,13 +47,14 @@ public class BuildingHandler : MonoBehaviour
             {
                 if (action == Action.Build && grid.CheckForBuildingAtPosition(gridPosition) == null)
                 {
-                    if (City.Instance.Cash >= selectedBuilding.cost)
+                    if (City.Instance.Cash >= SelectedBuilding.cost)
                     {
-                        City.Instance.DepositCash(-selectedBuilding.cost);
+                        City.Instance.DepositCash(-SelectedBuilding.cost);
                         UIController.Instance.UpdateCityData();
-                        City.Instance.buildingCounts[selectedBuilding.id]++;
-                        grid.AddBuilding(selectedBuilding, gridPosition);
+                        City.Instance.buildingCounts[SelectedBuilding.id]++;
+                        grid.AddBuilding(SelectedBuilding, gridPosition);
                     }
+                    else SelectedBuilding = null;
                 }
                 else if(action == Action.Remove && grid.CheckForBuildingAtPosition(gridPosition) != null)
                 {
@@ -66,7 +68,7 @@ public class BuildingHandler : MonoBehaviour
     }
     public void EnableBuilder(int building)
     {
-        selectedBuilding = buildings[building];
-        Debug.Log("Selected building: " + selectedBuilding.buildingName);
+        SelectedBuilding = buildings[building];
+        Debug.Log("Selected building: " + SelectedBuilding.buildingName);
     }
 }

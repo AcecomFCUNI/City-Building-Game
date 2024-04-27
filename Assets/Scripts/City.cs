@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class City : MonoBehaviour
 {
+    [SerializeField] private float hourDuration;
+    private int hour;
     private int jobsCeiling;
     private int cash;
     private float currentPopulation;
@@ -55,7 +57,7 @@ public class City : MonoBehaviour
         buildingCounts[1] = 1;
         buildingCounts[2] = 1;
         buildingCounts[3] = 1;
-        UIController.Instance.UpdateCityData();
+        StartCoroutine("Hour");
     }
 
     private void SetUpGame()
@@ -69,12 +71,7 @@ public class City : MonoBehaviour
 
     public void EndTurn()
     {
-        Day++;
-        CalculateJobs();
-        CalculateCash();
-        Debug.Log("Day ended.");
-        UIController.Instance.UpdateCityData();
-        UIController.Instance.UpdateDayCount();
+        StartCoroutine("GoToFinishOfDay");
     }
     private void CalculateJobs()
     {
@@ -88,5 +85,53 @@ public class City : MonoBehaviour
     public void DepositCash(int cash)
     {
         Cash += cash;
+    }
+
+    private void CalculateFood()
+    {
+        Food += buildingCounts[1] * 4;
+    }
+
+    private void CalculatePopulation()
+    {
+        float food = City.Instance.Food;
+        float currentPopulation = City.Instance.CurrentPopulation;
+        float populationCeiling = City.Instance.PopulationCeiling;
+        if(food >= currentPopulation && currentPopulation < populationCeiling)
+        {
+            City.Instance.Food -= currentPopulation * 0.25f;
+            City.Instance.CurrentPopulation = Mathf.Min(currentPopulation + food * .25f, populationCeiling);
+        }
+        else if(food < currentPopulation)
+        {
+            City.Instance.CurrentPopulation -= (currentPopulation - food) * .5f;
+        }
+    }
+    IEnumerator Hour()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(hourDuration);
+            hour++;
+            if(hour > 23) hour = 0;
+        }
+    }
+
+    IEnumerator GoToFinishOfDay()
+    {
+        StopCoroutine("Hour");
+        CalculateJobs();
+        while(hour < 24)
+        {
+            yield return new WaitForSeconds(0.2f);
+            hour++;
+            CalculateFood();
+            CalculateCash();
+            CalculatePopulation();
+            UIController.Instance.UpdateCityData();
+        }
+        Day++;
+        UIController.Instance.UpdateDayCount();
+        StartCoroutine("Hour");
     }
 }
